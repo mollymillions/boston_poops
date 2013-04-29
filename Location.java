@@ -4,10 +4,22 @@ import java.lang.*;
 
 public class Location {
 	
+	/*List of functions:
+	 * void setHours()
+	 * void setRating()
+	 * 
+	 * String getBuildingName()
+	 * String getAddress()
+	 * double getLatitude()
+	 * double getLongitude()
+	 * boolean isOpen()
+	 * boolean closeSoon()
+	 */
+	
 	private String buildingName;
 	private String address;
-	private int latitude;
-	private int longitude;
+	private double latitude;
+	private double longitude;
 	private int[] open;
 	private int[] close;
 	private int rating;
@@ -17,8 +29,8 @@ public class Location {
 	public Location() {
 		this.buildingName = "";
 		this.address = "";
-		this.latitude = 0;
-		this.longitude = 0;
+		this.latitude = 0.0;
+		this.longitude = 0.0;
 		this.rating = 0;
 		
 		this.open = new int[7];
@@ -26,7 +38,7 @@ public class Location {
 	}
 	
 	//Constructor with input
-	public Location(String name, String address, int latitude, int longitude, int rating) {
+	public Location(String name, String address, double latitude, double longitude, int rating) {
 		this.buildingName = name;
 		this.address = address;
 		this.latitude = latitude;
@@ -56,14 +68,16 @@ public class Location {
 	}
 	
 	//function that returns the latitude
-	public int getLatitude() {
+	public double getLatitude() {
 		return this.latitude;
 	}
 	
-	public int getLongitude() {
+	//function that returns the longitude
+	public double getLongitude() {
 		return this.longitude;
 	}
 	
+	//function that checks the hours to determine if the location is open
 	public boolean isOpen(int day, int hour, int minute) {
 		int currentTime = Integer.valueOf(hour+""+minute);
 		if ((currentTime-open[day])<0) {
@@ -76,6 +90,7 @@ public class Location {
 		return true;
 	}
 	
+	//function that checks the hours to see if it closes within a half hour
 	public boolean closeSoon(int day, int hour, int minute) {
 		int currentTime = Integer.valueOf(hour+""+minute);
 		if ((0 < (close[day]-currentTime)) && ((close[day]-currentTime) < 30)) {
@@ -84,10 +99,12 @@ public class Location {
 		return false;
 	}
 	
+	//returns the rating
 	public int getRating() {
 		return this.rating;
 	}
 	
+	//sets the rating (this is the only mutator so far)
 	public void setRating(int set_rating) {
 		if (0<=set_rating && set_rating<=5) {
 			this.rating = set_rating;
