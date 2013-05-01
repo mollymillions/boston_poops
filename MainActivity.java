@@ -1,5 +1,6 @@
 package com.bostonpoops;
 
+<<<<<<< HEAD
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Calendar;
@@ -10,11 +11,17 @@ import android.support.v4.app.*;
 import android.view.Menu;
 import boston_poops.Location;
 
+=======
+import android.os.Bundle;
+import android.support.v4.app.*;
+import android.view.Menu;
+>>>>>>> c8aa918ddea71fb4b154884fe5c5ca2a03558abd
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;			//Add
 import com.google.android.gms.maps.model.Marker;			//Add
 import com.google.android.gms.maps.model.MarkerOptions;		//Add
 
+<<<<<<< HEAD
 public class MainActivity extends FragmentActivity throws FileNotFoundException {
 
 	public int getLines(String filename) throws FileNotFoundException {
@@ -30,6 +37,11 @@ public class MainActivity extends FragmentActivity throws FileNotFoundException 
 	}
 	
 	
+=======
+public class MainActivity extends FragmentActivity {
+
+	static final LatLng BTHRM = new LatLng(42.35214, -71.05504);  //Add
+>>>>>>> c8aa918ddea71fb4b154884fe5c5ca2a03558abd
 	private GoogleMap map;										  //Add
 	
 	@Override
@@ -39,6 +51,7 @@ public class MainActivity extends FragmentActivity throws FileNotFoundException 
 		GoogleMap mapObject = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.supportMapFrag)).getMap();
 		
 		//Add
+<<<<<<< HEAD
 		//map.addMarker(new MarkerOptions().position(new LatLng(42.35214, -71.05504)).title("Marker"));
 		
 		//OR
@@ -137,6 +150,13 @@ public class MainActivity extends FragmentActivity throws FileNotFoundException 
 							.snippet(places[i].getAddress())
 							.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 				}
+=======
+		map.addMarker(new MarkerOptions().position(new LatLng(42.35214, -71.05504)).title("Marker"));
+		
+		//OR
+		if(map!=null){
+			Marker bthrm = map.addMarker(new MarkerOptions().position(BTHRM).title("BTHRM1"));
+>>>>>>> c8aa918ddea71fb4b154884fe5c5ca2a03558abd
 		}
 		
 		//Current Location
