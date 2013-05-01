@@ -42,7 +42,13 @@ public class location_test {
 			String[] close = new String[7];
 			for (int day = 0; day < 7; day++) {
 				open[day] = Integer.toString(input.nextInt());
+				if (open[day].length() < 4) {
+					open[day] += "00";
+				}
 				close[day] = Integer.toString(input.nextInt());
+				if (close[day].length() < 4) {
+					close[day] += "00";
+				}
 			}
 			double latitude = input.nextDouble();
 			double longitude = input.nextDouble();
@@ -58,9 +64,9 @@ public class location_test {
 		//we would call another method
 		//So we'd use the results of that in these variables
 
-		int current_day = 5;
-		String current_hour = "10";
-		String current_minute = "00";
+		int current_day = 3;
+		String current_hour = Integer.toString(9);
+		String current_minute = Integer.toString(54);
 		for (int i=0; i < places.length; i++) {
 			if (places[i].closeSoon(current_day, current_hour, current_minute)) {
 				System.out.println("Close soon");

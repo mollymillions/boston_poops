@@ -1,6 +1,6 @@
 package boston_poops;
 
-import java.lang.*;
+//import java.lang.*;
 
 public class Location {
 	
@@ -86,11 +86,13 @@ public class Location {
 		int_open = Integer.valueOf(open[day]);
 		
 		int currentTime = Integer.valueOf(hour+""+minute);
-		
-		if ((currentTime-int_open)<0) {
+		if (Integer.valueOf(minute) == 0) {
+			currentTime = Integer.valueOf(hour+minute+"0");
+		}
+		if ((currentTime-int_open) < 0) {
 			return false;
 		}
-		if ((currentTime-int_close)>0) {
+		if ((currentTime-int_close) > 0) {
 			return false;
 		}
 		return true;
