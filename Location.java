@@ -81,10 +81,9 @@ public class Location {
 	public boolean isOpen(int day, int hour, int minute) {
 		int currentTime = Integer.valueOf(hour+""+minute);
 		if ((currentTime-open[day])<0) {
-			System.out.println(currentTime-open[day]);
 			return false;
 		}
-		if ((currentTime-close[day])<0) {
+		if ((currentTime-close[day])>0) {
 			return false;
 		}
 		return true;
