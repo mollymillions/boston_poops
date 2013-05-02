@@ -2,7 +2,7 @@ package boston_poops;
 
 //import java.lang.*;
 
-public class Location {
+public class Bathroom {
 	
 	/*List of functions:
 	 * void setHours()
@@ -27,7 +27,7 @@ public class Location {
 
 	//Constructor
 	//Default constructor
-	public Location() {
+	public Bathroom() {
 		this.buildingName = "";
 		this.address = "";
 		this.latitude = 0.0;
@@ -39,7 +39,7 @@ public class Location {
 	}
 	
 	//Constructor with input
-	public Location(String name, String address, double latitude, double longitude, int rating) {
+	public Bathroom(String name, String address, double latitude, double longitude, int rating) {
 		this.buildingName = name;
 		this.address = address;
 		this.latitude = latitude;
@@ -127,4 +127,13 @@ public class Location {
 		}
 	}
 	
+	//returns the map id
+	public int getMapID() {
+		return this.mapID;
+	}
+	
+	//sets the map ID
+	public void setMapID(int id) {
+		this.mapID = id;
+	}
 }

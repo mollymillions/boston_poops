@@ -9,7 +9,9 @@ public class location_test {
 	/**
 	 * @param args
 	 */
-	//This method counts the number of lines in a file
+	//This method counts the number of lines in a file, and returns an int 
+	//corresponding to that number
+	//To use it, use the form: int somenum = getLines(filename);
 	public static int getLines(String filename) throws FileNotFoundException {
 		Scanner input = new Scanner(new File(filename));
 		int count = 0;
@@ -22,15 +24,37 @@ public class location_test {
 		return count;
 	}
 	
+	//This method finds the index of a Bathroom based on the marker id
+	//It's used in the form: int foundID = findID(int markerID,Bathroom[] places);
+	public int findID(int markerID, Bathroom[] places) {
+		for (int i=0; i<places.length; i++) {
+			if (places[i].getMapID() == markerID) {
+				return i;
+			}
+		}
+		return 0;
+	}
+	
 	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		//make an array of locations - this requires us to know how many locations we have
+		Calendar current_daytime = Calendar.getInstance();
+		int current_day = current_daytime.get(Calendar.DAY_OF_WEEK);
+		String current_hour = Integer.toString(current_daytime.get(Calendar.HOUR_OF_DAY));
+		String current_minute = Integer.toString(current_daytime.get(Calendar.MINUTE));
 		
+		if (current_day == 1) {
+			current_day = 6;
+		} else {
+			current_day -= 2;
+		}
+				
 		//THIS IS IMPORTANT - this is where the program takes in all the input
+		//The filename corresponds with the build path
 		String filename = "locations_list.csv";
 		int num_lines = getLines(filename);
 		//initialize the array that the Locations will all be stored in		
-		Location[] places = new Location[num_lines];
+		Bathroom[] places = new Bathroom[num_lines];
 		//while the file has lines to read in, read them in!
 		int iterator = 0;
 		Scanner input = new Scanner(new File(filename));
@@ -53,7 +77,7 @@ public class location_test {
 			double latitude = input.nextDouble();
 			double longitude = input.nextDouble();
 			
-			places[iterator] = new Location(buildingName,address,latitude,longitude,0);
+			places[iterator] = new Bathroom(buildingName,address,latitude,longitude,0);
 			places[iterator].setHours(open, close);
 			iterator++;
 		}
@@ -63,10 +87,6 @@ public class location_test {
 		//I used the current date/time to check the status. If this was an android,
 		//we would call another method
 		//So we'd use the results of that in these variables
-
-		int current_day = 3;
-		String current_hour = Integer.toString(9);
-		String current_minute = Integer.toString(54);
 		for (int i=0; i < places.length; i++) {
 			if (places[i].closeSoon(current_day, current_hour, current_minute)) {
 				System.out.println("Close soon");
