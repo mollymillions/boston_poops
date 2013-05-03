@@ -1,58 +1,45 @@
 package boston_poops;
 
-//import java.lang.*;
+import java.lang.*;
 
 public class Location {
 	
-	/*List of functions:
-	 * void setHours()
-	 * void setRating()
-	 * 
-	 * String getBuildingName()
-	 * String getAddress()
-	 * double getLatitude()
-	 * double getLongitude()
-	 * boolean isOpen()
-	 * boolean closeSoon()
-	 */
-	
 	private String buildingName;
 	private String address;
-	private double latitude;
-	private double longitude;
-	private String[] open;
-	private String[] close;
+	private int latitude;
+	private int longitude;
+	private int[] open;
+	private int[] close;
 	private int rating;
-	private int mapID;
 
 	//Constructor
 	//Default constructor
 	public Location() {
 		this.buildingName = "";
 		this.address = "";
-		this.latitude = 0.0;
-		this.longitude = 0.0;
+		this.latitude = 0;
+		this.longitude = 0;
 		this.rating = 0;
-		this.mapID = 0;
-		this.open = new String[7];
-		this.close = new String[7];
+		
+		this.open = new int[7];
+		this.close = new int[7];
 	}
 	
 	//Constructor with input
-	public Location(String name, String address, double latitude, double longitude, int rating) {
+	public Location(String name, String address, int latitude, int longitude, int rating) {
 		this.buildingName = name;
 		this.address = address;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.rating = rating;
-		this.mapID = 0;
-		this.open = new String[7];
-		this.close = new String[7];
+		
+		this.open = new int[7];
+		this.close = new int[7];
 	}
 	
 	//function that sets when the place is open - takes two arrays as inputs
-	public void setHours(String[] o_hours, String[] c_hours) {
-		for (int i=0; i<7; i++) {
+	public void setHours(int[] o_hours, int[] c_hours) {
+		for (int i=0; i<6; i++) {
 			this.open[i] = o_hours[i];
 			this.close[i] = c_hours[i];
 		}
@@ -69,58 +56,38 @@ public class Location {
 	}
 	
 	//function that returns the latitude
-	public double getLatitude() {
+	public int getLatitude() {
 		return this.latitude;
 	}
 	
-	//function that returns the longitude
-	public double getLongitude() {
+	public int getLongitude() {
 		return this.longitude;
 	}
 	
-	//function that checks the hours to determine if the location is open
-	public boolean isOpen(int day, String hour, String minute) {
-		int int_close = 0;
-		int int_open = 0;
-		int_close = Integer.valueOf(close[day]);
-		int_open = Integer.valueOf(open[day]);
-		
-		int currentTime = 0;
-		if (minute.length() < 2 && Integer.valueOf(minute)==0) {
-			currentTime = Integer.valueOf(hour+minute+"0");
-		} else if (minute.length() < 2) {
-			currentTime = Integer.valueOf(hour+"0"+minute); 
-		} else {
-			currentTime = Integer.valueOf(hour+minute);
-		}
-			
-		if ((currentTime-int_open) < 0) {
+	public boolean isOpen(int day, int hour, int minute) {
+		int currentTime = Integer.valueOf(hour+""+minute);
+		if ((currentTime-open[day])<0) {
+			System.out.println(currentTime-open[day]);
 			return false;
 		}
-		if ((currentTime-int_close) > 0) {
+		if ((currentTime-close[day])<0) {
 			return false;
 		}
 		return true;
 	}
 	
-	//function that checks the hours to see if it closes within a half hour
-	public boolean closeSoon(int day, String hour, String minute) {
-		int int_close = 0;
-		int_close = Integer.valueOf(close[day]);		
+	public boolean closeSoon(int day, int hour, int minute) {
 		int currentTime = Integer.valueOf(hour+""+minute);
-		
-		if ((0 < (int_close-currentTime)) && ((int_close-currentTime) < 30)) {
+		if ((0 < (close[day]-currentTime)) && ((close[day]-currentTime) < 30)) {
 			return true;
 		}
 		return false;
 	}
 	
-	//returns the rating
 	public int getRating() {
 		return this.rating;
 	}
 	
-	//sets the rating (this is the only mutator so far)
 	public void setRating(int set_rating) {
 		if (0<=set_rating && set_rating<=5) {
 			this.rating = set_rating;

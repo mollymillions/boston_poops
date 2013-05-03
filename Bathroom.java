@@ -23,7 +23,7 @@ public class Bathroom {
 	private String[] open;
 	private String[] close;
 	private int rating;
-	private int mapID;
+	private String mapID;
 
 	//Constructor
 	//Default constructor
@@ -33,7 +33,7 @@ public class Bathroom {
 		this.latitude = 0.0;
 		this.longitude = 0.0;
 		this.rating = 0;
-		this.mapID = 0;
+		this.mapID = "";
 		this.open = new String[7];
 		this.close = new String[7];
 	}
@@ -45,16 +45,32 @@ public class Bathroom {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.rating = rating;
-		this.mapID = 0;
+		this.mapID = "";
 		this.open = new String[7];
 		this.close = new String[7];
 	}
 	
 	//function that sets when the place is open - takes two arrays as inputs
 	public void setHours(String[] o_hours, String[] c_hours) {
+		String newohours = "";
+		String newchours = "";
 		for (int i=0; i<7; i++) {
-			this.open[i] = o_hours[i];
-			this.close[i] = c_hours[i];
+			if (o_hours[i].length() < 3) {
+				newohours += o_hours[i]+"00";
+			} else {
+				newohours += o_hours[i];
+			}
+			if (c_hours[i].length() < 4 && Integer.valueOf(c_hours[i]) > 12) {
+				newchours += c_hours[i]+"00";
+			} else {
+				newchours += c_hours[i];
+			}
+				
+			this.open[i] = newohours;
+			this.close[i] = newchours;
+			
+			newohours = "";
+			newchours = "";
 		}
 	}
 	
@@ -84,7 +100,6 @@ public class Bathroom {
 		int int_open = 0;
 		int_close = Integer.valueOf(close[day]);
 		int_open = Integer.valueOf(open[day]);
-		
 		int currentTime = 0;
 		if (minute.length() < 2 && Integer.valueOf(minute)==0) {
 			currentTime = Integer.valueOf(hour+minute+"0");
@@ -106,9 +121,8 @@ public class Bathroom {
 	//function that checks the hours to see if it closes within a half hour
 	public boolean closeSoon(int day, String hour, String minute) {
 		int int_close = 0;
-		int_close = Integer.valueOf(close[day]);		
+		int_close = Integer.valueOf(this.close[day]);		
 		int currentTime = Integer.valueOf(hour+""+minute);
-		
 		if ((0 < (int_close-currentTime)) && ((int_close-currentTime) < 30)) {
 			return true;
 		}
@@ -128,12 +142,12 @@ public class Bathroom {
 	}
 	
 	//returns the map id
-	public int getMapID() {
+	public String getMapID() {
 		return this.mapID;
 	}
 	
 	//sets the map ID
-	public void setMapID(int id) {
+	public void setMapID(String id) {
 		this.mapID = id;
 	}
 }
