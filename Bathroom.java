@@ -98,17 +98,31 @@ public class Bathroom {
 	public boolean isOpen(int day, String hour, String minute) {
 		int int_close = 0;
 		int int_open = 0;
-		int_close = Integer.valueOf(close[day]);
-		int_open = Integer.valueOf(open[day]);
-		int currentTime = 0;
-		if (minute.length() < 2 && Integer.valueOf(minute)==0) {
-			currentTime = Integer.valueOf(hour+minute+"0");
-		} else if (minute.length() < 2) {
-			currentTime = Integer.valueOf(hour+"0"+minute); 
-		} else {
-			currentTime = Integer.valueOf(hour+minute);
+		
+		String str_close = close[day];
+		String str_open = open[day];
+		//check to make sure that minute doesnt need a leading 0
+		if (minute.length() == 1) {
+			minute = "0" + minute;
 		}
-			
+		
+		if (Integer.valueOf(str_open) < 3) {
+			str_open = str_open + "00";
+		}
+		
+		if (Integer.valueOf(str_close) < 3) {
+			str_close = str_close + "00";
+		}
+		
+		int_close = Integer.valueOf(str_close);
+		int_open = Integer.valueOf(str_open);
+		int currentTime = Integer.valueOf(hour+minute);
+
+		//For post-midnight rollover
+		if (int_close < 1200) {
+			int_close = int_close + 2400;
+		}
+		
 		if ((currentTime-int_open) < 0) {
 			return false;
 		}
@@ -121,9 +135,45 @@ public class Bathroom {
 	//function that checks the hours to see if it closes within a half hour
 	public boolean closeSoon(int day, String hour, String minute) {
 		int int_close = 0;
-		int_close = Integer.valueOf(this.close[day]);		
+		String str_close = close[day];
+		int cl_hour = 0;
+		int cl_minute = 0;
+		
+		//check to make sure that minute doesnt need a leading 0
+		if (minute.length() == 1) {
+			minute = "0" + minute;
+		}
+		
+		if (Integer.valueOf(str_close) < 3) {
+			cl_hour = Integer.valueOf(cl_hour);
+			cl_minute = 0;
+		} else {
+		}
+		
+		int_close = Integer.valueOf(str_close);		
+
+		//For post-midnight rollover
+		if (int_close < 1200) {
+			int_close = int_close + 2400;
+		}
 		int currentTime = Integer.valueOf(hour+""+minute);
-		if ((0 < (int_close-currentTime)) && ((int_close-currentTime) < 30)) {
+
+		System.out.println(int_close - currentTime);
+		System.out.println(int_close);
+		System.out.println(int_close/100);
+		System.out.println(int_close%100);
+		
+		int close_h = 0;
+		int close_min = 0;
+		int curr_h = 0;
+		int curr_min = 0;
+		
+		close_h = int_close/100;
+		close_min = int_close%100;
+		curr_h = Integer.valueOf(hour);
+		curr_min = Integer.valueOf(minute);
+		
+		if (((close_h*60 + close_min) - (curr_h*60 + curr_min)) < 30) {
 			return true;
 		}
 		return false;
